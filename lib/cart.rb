@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'catalog'
+require 'text-table'
 
 class Cart
   attr_reader :items
@@ -19,6 +20,16 @@ class Cart
     @items[product.name] += quantity
   end
 
+  def empty?
+    items.empty?
+  end
+
+  def summary
+    item_table.to_s +
+      "\nTotal price: #{Price.from_cents summary_data[:total_price]}" \
+      "\nYou saved #{Price.from_cents summary_data[:total_savings]} today."
+  end
+
   def summary_data
     @summary_data ||= {
       items: items_with_cost,
@@ -28,6 +39,19 @@ class Cart
   end
 
   private
+
+  def item_table
+    table = Text::Table.new
+    table.head = %w[Item Quantity Price]
+    summary_data[:items].each do |product_cost|
+      table.rows << [product_cost.name,
+                     product_cost.quantity,
+                     Price.from_cents(product_cost.total)]
+    end
+    table.align_column 2, :right
+    table.align_column 3, :right
+    table
+  end
 
   def items_with_cost
     @total_price = 0
