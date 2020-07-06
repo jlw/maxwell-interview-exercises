@@ -33,6 +33,10 @@ while (raw_input = cli.ask("What is the #{cart.empty? ? 'first' : 'next'} item i
   cli.say 'Sorry, we could not find that item; please try again.'
 end
 
-puts 'Your grocery items are:'
-puts cart.summary
-puts 'Thank you for shopping with us!'
+if cart.empty?
+  puts "We're sorry you couldn't find what you were looking for."
+else
+  puts 'Your grocery items are:'
+  puts cart.summary
+  puts 'Thank you for shopping with us!'
+end
