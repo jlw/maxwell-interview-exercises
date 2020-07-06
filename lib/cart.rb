@@ -25,9 +25,11 @@ class Cart
   end
 
   def summary
-    item_table.to_s +
-      "\nTotal price: #{Price.from_cents summary_data[:total_price]}" \
-      "\nYou saved #{Price.from_cents summary_data[:total_savings]} today."
+    [
+      item_table.to_s,
+      "Total price: #{Price.from_cents summary_data[:total_price]}",
+      "You saved #{Price.from_cents summary_data[:total_savings]} today.",
+    ].join("\n")
   end
 
   def summary_data
@@ -39,6 +41,14 @@ class Cart
   end
 
   private
+
+  def clear_summary_data
+    return if @summary_data.nil?
+
+    @summary_data = nil
+    @total_price = nil
+    @total_savings = nil
+  end
 
   def item_table
     table = Text::Table.new
@@ -63,13 +73,5 @@ class Cart
       @total_savings += items_with_cost.last.savings
     end
     items_with_cost
-  end
-
-  def clear_summary_data
-    return if @summary_data.nil?
-
-    @summary_data = nil
-    @total_price = nil
-    @total_savings = nil
   end
 end
