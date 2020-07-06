@@ -73,7 +73,7 @@ GEM
     shellany (0.0.1)
     text-table (1.2.4)
     thor (1.0.1)
-    titlecase (0.1.1)
+    title_case (0.2.6)
     unicode-display_width (1.7.0)
 
 PLATFORMS
@@ -87,7 +87,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   text-table
-  titlecase
+  title_case
 
 BUNDLED WITH
    2.1.4

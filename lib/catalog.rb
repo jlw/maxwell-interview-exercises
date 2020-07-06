@@ -4,7 +4,7 @@ require 'csv'
 require 'price'
 require 'product'
 require 'text-table'
-require 'titlecase'
+require 'title_case'
 
 class Catalog
   DATA_FILE = File.expand_path('../data/products.csv', __dir__)
@@ -13,7 +13,7 @@ class Catalog
     def find(name)
       raise ArgumentError, 'Please provide a product name to search for.' unless name.is_a?(String) && !name.empty?
 
-      name = name.titlecase
+      name = name.title_case_line
       products.find { |product| product.name == name }
     end
 
@@ -44,7 +44,7 @@ class Catalog
 
     def cleaned_product(row)
       row = row.to_hash.transform_keys(&:to_sym)
-      row[:name].titlecase!
+      row[:name] = row[:name].title_case_line
       row[:unit_price] = load_price(row[:unit_price])
       row[:sale_quantity] = row[:sale_quantity].to_i unless row[:sale_quantity].nil?
       row[:sale_price] = load_price(row[:sale_price])

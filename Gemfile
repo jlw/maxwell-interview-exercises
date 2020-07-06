@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'highline'
 gem 'text-table'
-gem 'titlecase' # warning: monkey-patches String with #titlecase(!) and #smart_capitalize(!)
+gem 'title_case' # warning: monkey-patches String with #title_case_word and #title_case_line
 
 group :development, :test do
   gem 'byebug'
