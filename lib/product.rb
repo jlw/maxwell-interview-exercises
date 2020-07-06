@@ -14,9 +14,13 @@ class Product
 
   def cost_breakdown_for(quantity)
     product_cost = ProductCost.new name, quantity, unit_price * quantity, 0
-    return product_cost if sale_quantity.nil? || sale_price.nil?
+    return product_cost unless sale?
 
     calculate_sale_cost(product_cost)
+  end
+
+  def sale?
+    !sale_quantity.nil? && !sale_price.nil?
   end
 
   private

@@ -7,6 +7,8 @@ $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
 require 'bundler/setup'
 require 'highline'
 
+require 'catalog'
 require 'cart'
 
-puts Cart.new.summary_data
+puts "Our current price list is:"
+puts Catalog.table

@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'highline'
+gem 'text-table'
 gem 'titlecase' # warning: monkey-patches String with #titlecase(!) and #smart_capitalize(!)
 
 group :development, :test do

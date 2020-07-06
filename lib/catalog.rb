@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require 'csv'
+require 'price'
 require 'product'
+require 'text-table'
 require 'titlecase'
 
 class Catalog
@@ -20,6 +22,19 @@ class Catalog
       @products
     end
 
+    def table
+      table = Text::Table.new
+      table.head = ['Item', 'Unit Price', 'Sale Price']
+      products.each do |product|
+        table.rows << [product.name,
+                       Price.from_cents(product.unit_price),
+                       product.sale? ? "#{product.sale_quantity} for #{Price.from_cents(product.sale_price)}" : nil]
+      end
+      table.align_column 2, :right
+      table.align_column 3, :right
+      table
+    end
+
     private
 
     def cleaned_product(row)
@@ -28,7 +43,14 @@ class Catalog
       row[:unit_price] = load_price(row[:unit_price])
       row[:sale_quantity] = row[:sale_quantity].to_i unless row[:sale_quantity].nil?
       row[:sale_price] = load_price(row[:sale_price])
-      Product.new(row)
+      Product.new(**row)
+    end
+
+    def load_price(price)
+      return if price.nil?
+
+      price.gsub!(/^\$/, '')
+      (price.to_f * 100).to_i
     end
 
     def load_products
@@ -37,13 +59,6 @@ class Catalog
         loaded << cleaned_product(row)
       end
       @products = loaded.sort_by(&:name)
-    end
-
-    def load_price(price)
-      return if price.nil?
-
-      price.gsub!(/^\$/, '')
-      (price.to_f * 100).to_i
     end
   end
 end
