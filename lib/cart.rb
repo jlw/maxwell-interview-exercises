@@ -2,25 +2,25 @@
 
 require 'catalog'
 
-class Checkout
+class Cart
   attr_reader :items
 
   def initialize
     @items = {}
-    @report_data = nil
+    @summary_data = nil
   end
 
   def add_item(name, quantity = 1)
     product = Catalog.find(name)
     return unless product
 
-    clear_report_data
+    clear_summary_data
     @items[product.name] ||= 0
     @items[product.name] += quantity
   end
 
-  def report_data
-    @report_data ||= {
+  def summary_data
+    @summary_data ||= {
       items: items_with_cost,
       total_price: @total_price,
       total_savings: @total_savings,
@@ -41,10 +41,10 @@ class Checkout
     items_with_cost
   end
 
-  def clear_report_data
-    return if @report_data.nil?
+  def clear_summary_data
+    return if @summary_data.nil?
 
-    @report_data = nil
+    @summary_data = nil
     @total_price = nil
     @total_savings = nil
   end
