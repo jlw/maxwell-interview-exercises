@@ -3,7 +3,7 @@
 class Price
   class << self
     def from_cents(cents)
-      format '$%.2f', to_dollars(cents) # rubocop:disable Style/FormatStringToken
+      format '$%.2f', to_dollars(cents)
     end
 
     def to_dollars(cents)
