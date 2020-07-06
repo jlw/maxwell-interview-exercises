@@ -21,6 +21,7 @@ Style/FrozenStringLiteralComment:
   Exclude:
     - spec/**/*
     - Gemfile
+    - Guardfile
 
 Style/HashEachMethods:
   Enabled: true
