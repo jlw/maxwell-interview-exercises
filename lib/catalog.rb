@@ -18,8 +18,13 @@ class Catalog
     end
 
     def products
-      load_products if @products.nil?
-      @products
+      @products ||= begin
+        loaded = []
+        CSV.foreach(DATA_FILE, headers: true) do |row|
+          loaded << cleaned_product(row)
+        end
+        loaded.sort_by(&:name)
+      end
     end
 
     def table
@@ -51,14 +56,6 @@ class Catalog
 
       price.gsub!(/^\$/, '')
       (price.to_f * 100).to_i
-    end
-
-    def load_products
-      loaded = []
-      CSV.foreach(DATA_FILE, headers: true) do |row|
-        loaded << cleaned_product(row)
-      end
-      @products = loaded.sort_by(&:name)
     end
   end
 end

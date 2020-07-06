@@ -31,14 +31,5 @@ RSpec.describe Catalog do
       expect(product.name).to eq 'Apple'
       expect(product.unit_price).to eq 89
     end
-
-    it 'only loads data once' do
-      described_class.instance_variable_set :@products, nil
-      allow(CSV).to receive(:foreach).and_call_original
-
-      5.times { described_class.products }
-
-      expect(CSV).to have_received(:foreach).once
-    end
   end
 end
